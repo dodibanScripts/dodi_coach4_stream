@@ -2,7 +2,7 @@
 
 The **client patch gate** for `dodi_cars`. It ships the `citizen` meta patch that turns the vanilla `coach4` into a real car, **verifies at runtime** that each player installed it, and blocks/kicks the ones who did not. It also hosts the Lua car profiles (top speed, acceleration, braking, drift, roll assist) shared by `dodi_cars`.
 
-> **This resource is mandatory.** `dodi_cars` refuses to work correctly without it, and every player must merge the `citizen` patch into their own `RedM.app`. Read **[The citizen patch](#the-citizen-patch)** first.
+> **This resource is mandatory.** `dodi_cars` refuses to work correctly without it, and every player must merge the `citizen` patch into their own `RedM.app`. Patch download: **https://github.com/dodibanScripts/dodi_coach4_stream** (`client_patch/citizen.rar`). Read **[The citizen patch](#the-citizen-patch)** first.
 
 ---
 
@@ -10,7 +10,7 @@ The **client patch gate** for `dodi_cars`. It ships the `citizen` meta patch tha
 
 RedM has **no cars**. Every vehicle in RDR2 multiplayer is a **draft vehicle** (wagon/stagecoach): wagon physics, wagon input, reins instead of a steering wheel.
 
-`dodi_cars` builds cars on the `coach4` chassis — invisible chassis, custom body and wheel props attached on top. But the chassis only **drives like a car** after Rockstar's own meta files are patched on the **client**, because vehicle type, handling, seat layout and control bindings are all read from local `citizen` data. Server-side streaming **cannot** override them: RedM will not let a stream replace the vanilla `coach4`, which is why this resource does not ship a YFT.
+`dodi_cars` builds cars on the `coach4` chassis — invisible chassis, custom body and wheel props attached on top. But the chassis only **drives like a car** after the vehicle meta files are patched on the **client**, because vehicle type, handling, seat layout and control bindings are all read from local `citizen` data. Server-side streaming **cannot** override them: RedM will not let a stream replace the vanilla `coach4`, which is why this resource does not ship a YFT.
 
 So the deal is:
 
@@ -22,7 +22,7 @@ So the deal is:
 
 ## The citizen patch
 
-The patch is a **merge of five Rockstar meta files** into `%LOCALAPPDATA%\RedM\RedM.app\citizen`:
+The patch is a **merge of five vehicle meta files** into `%LOCALAPPDATA%\RedM\RedM.app\citizen`:
 
 | File | What it changes |
 |------|-----------------|
@@ -32,22 +32,30 @@ The patch is a **merge of five Rockstar meta files** into `%LOCALAPPDATA%\RedM\R
 | `citizen/common/data/control/settings.meta` | `INPUT_VEH_CAR_*` bindings |
 | `citizen/platform/data/control/default.meta` | default control map |
 
-The ready-to-ship copy is bundled here: **`dodi_coach4_stream/client_patch/citizen`** (plus `client_patch/citizen.rar` for easy distribution on Discord).
+**Download (GitHub — this is the source of truth, pin this in Discord):**
+
+- Repo: [dodibanScripts/dodi_coach4_stream](https://github.com/dodibanScripts/dodi_coach4_stream)
+- Patch folder: [dodi_coach4_stream/client_patch/citizen](https://github.com/dodibanScripts/dodi_coach4_stream/tree/main/dodi_coach4_stream/client_patch/citizen)
+- Ready zip: [citizen.rar](https://github.com/dodibanScripts/dodi_coach4_stream/raw/main/dodi_coach4_stream/client_patch/citizen.rar)
+
+The same files also ship inside the Tebex pack at `dodi_coach4_stream/client_patch/`. GitHub is easier for players.
 
 ### Install (every player)
 
 1. **Close RedM completely.**
-2. Open the patch folder: `dodi_coach4_stream/client_patch/citizen` (or extract `citizen.rar`).
-3. Open your RedM install folder: paste `%LOCALAPPDATA%\RedM\RedM.app` into the Windows Explorer address bar.
-4. **Back up** the existing `citizen` folder — copy it next to itself and rename it `citizen_backup`.
-5. Copy the patch's `citizen` contents **over** `RedM.app\citizen` and confirm **Replace / Merge** (folders merge, the five files above are replaced).
-6. Launch RedM and join the server.
-7. Still broken? Delete `RedM.app\data\cache` and launch again.
+2. Download **[citizen.rar](https://github.com/dodibanScripts/dodi_coach4_stream/raw/main/dodi_coach4_stream/client_patch/citizen.rar)** (or clone the repo and open `dodi_coach4_stream/client_patch/citizen`).
+3. Extract the archive. You should have a `citizen` folder with `common/` and `platform/` inside.
+4. Open your RedM install folder: paste `%LOCALAPPDATA%\RedM\RedM.app` into the Windows Explorer address bar.
+5. **Back up** the existing `citizen` folder — copy it next to itself and rename it `citizen_backup`.
+6. Copy the patch `citizen` contents **over** `RedM.app\citizen` and confirm **Replace / Merge** (folders merge, the five files above are replaced).
+7. Launch RedM and join the server.
+8. Still broken? Delete `RedM.app\data\cache` and launch again.
 
 Nothing is automated on purpose: it is five file replacements, and a manual copy with a backup is safer than a script touching the player's RedM install.
 
 ### What players should be told
 
+- Download is public: **https://github.com/dodibanScripts/dodi_coach4_stream**
 - It is a **client-side file patch**, like a RedM addon — it does not touch RDR2 itself
 - It has to be redone if RedM **reinstalls or wipes** `RedM.app`
 - RedM must be **fully closed** during the copy
@@ -168,8 +176,10 @@ ensure dodi_cars
 ensure dodi_gaspumps
 ```
 
-3. Publish `client_patch/citizen.rar` (or the folder) to your players with the install steps above — pin it in your Discord
-4. Tune `Config.Messages` so the block screen points at **your** Discord / download link
+3. Point players at **GitHub** (do not make them hunt inside the Tebex zip):
+   [citizen.rar](https://github.com/dodibanScripts/dodi_coach4_stream/raw/main/dodi_coach4_stream/client_patch/citizen.rar)
+   Repo: https://github.com/dodibanScripts/dodi_coach4_stream
+4. Tune `Config.Messages` so the block screen shows that GitHub link
 5. Restart — no SQL, no items
 
 ---
@@ -205,7 +215,7 @@ end
 - `Config.KickWithoutMeta` / `Config.KickAfterMs` — kick behaviour and grace period (90s)
 - `Config.RecheckMs` — retry interval for blocked clients (15s)
 - `Config.BlockControls` — also block firing while blocked
-- `Config.Messages` — block screen title/lines and kick reason (**put your Discord here**)
+- `Config.Messages` — block screen title/lines and kick reason (**GitHub link already set**)
 - `Config.CarProfiles` — per-profile speed, acceleration, braking, drift and roll tuning
 
 ---
